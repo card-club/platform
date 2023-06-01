@@ -11,7 +11,7 @@ async function generateOffChainSecrets() {
 	const encrypted = await EthCrypto.encryptWithPublicKey(DON_PUBLIC_KEY, JSON.stringify(payload));
 
 	console.log({
-		'0x0': EthCrypto.cipher.stringify(encrypted)
+		'0x0': Buffer.from(EthCrypto.cipher.stringify(encrypted), 'hex').toString('base64'),
 	});
 }
 
