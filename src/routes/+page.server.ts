@@ -22,9 +22,12 @@ export const actions: Actions = {
 				}
 			]
 		});
-
-		return {
-			response: textResponse.data.choices[0].message?.content
-		};
+		if(textResponse?.data?.choices[0]?.message?.content) {
+			return {
+				response: textResponse.data.choices[0].message?.content
+			};
+		} else {
+			return textResponse
+		}
 	}
 };
