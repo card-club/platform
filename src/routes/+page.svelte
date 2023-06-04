@@ -84,7 +84,7 @@
                 questions = JSON.parse(result.data).questions;
             } catch (e) {
                 try {
-                    JSON.parse(result.data.split('{')[1]).questions;
+                    JSON.parse(`{${result.data.split('{')[1]}`).questions;
                 } catch (e) {
                     error = result.data;
                 }

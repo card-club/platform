@@ -39,10 +39,7 @@
 	"dependencies": {
 		"@tailwindcss/forms": "^0.5.3",
 		"@upstash/redis": "^1.21.0",
-		"@vespaiach/axios-fetch-adapter": "^0.3.1",
-		"axios": "^1.4.0",
 		"ethers-svelte": "^3.2.0",
-		"ip": "^1.1.8",
-		"openai": "^3.2.1"
+		"ip": "^1.1.8"
 	}
 }

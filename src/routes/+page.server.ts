@@ -17,7 +17,7 @@ export const actions: Actions = {
 			'model': 'gpt-3.5-turbo',
 			'messages': [{
 				'role': 'user',
-				content: `${textPrompt} Can you setup 10 questions and answers about the previous question so I can learn about it.
+				content: `${textPrompt} Can you setup 10 questions and answers about the previous question/sentence so I can learn about it.
 				 Can you return only the following JSON format: {"questions": [{"question": "question?", "answer": "Answer"}]}?`
 			}],
 		}),
