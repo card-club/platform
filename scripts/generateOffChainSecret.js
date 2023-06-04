@@ -6,12 +6,15 @@ const DON_PUBLIC_KEY =
 
 async function generateOffChainSecrets() {
 	const message = { BEARER_TOKEN: process.env.BEARER_TOKEN };
-	const signature = EthCrypto.sign(process.env.PRIVATE_KEY, EthCrypto.hash.keccak256(JSON.stringify(message)));
+	const signature = EthCrypto.sign(
+		process.env.PRIVATE_KEY,
+		EthCrypto.hash.keccak256(JSON.stringify(message))
+	);
 	const payload = { message, signature };
 	const encrypted = await EthCrypto.encryptWithPublicKey(DON_PUBLIC_KEY, JSON.stringify(payload));
 
 	console.log({
-		'0x0': Buffer.from(EthCrypto.cipher.stringify(encrypted), 'hex').toString('base64'),
+		'0x0': Buffer.from(EthCrypto.cipher.stringify(encrypted), 'hex').toString('base64')
 	});
 }
 
