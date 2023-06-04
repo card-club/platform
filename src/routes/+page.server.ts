@@ -6,12 +6,14 @@ export const actions: Actions = {
 	submit: async ({ request }: any) => {
 		const promptFormData = await request.formData();
 		const textPrompt = promptFormData.get('search') as string;
-
+		console.log("start configuration");
 		const configuration = new Configuration({
 			apiKey: OPENAI_API_KEY
 		});
+		console.log("config init");
 
 		const openai = new OpenAIApi(configuration);
+		console.log("start createChatCompletion");
 
 		const textResponse = await openai.createChatCompletion({
 			model: 'gpt-3.5-turbo',
@@ -22,6 +24,7 @@ export const actions: Actions = {
 				}
 			]
 		});
+		console.log(textResponse);
 		if(textResponse?.data?.choices[0]?.message?.content) {
 			return {
 				response: textResponse.data.choices[0].message?.content
