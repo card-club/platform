@@ -1,6 +1,7 @@
 import { Configuration, OpenAIApi } from 'openai';
 import { OPENAI_API_KEY } from '$env/static/private';
 import type { Actions } from './$types';
+import axios from 'axios';
 import fetchAdapter from "@vespaiach/axios-fetch-adapter";
 
 export const actions: Actions = {
