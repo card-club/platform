@@ -18,7 +18,7 @@ export const actions: Actions = {
 			messages: [
 				{
 					role: 'user',
-					content: `${textPrompt} Can you setup 10 questions and answers about the previous question so I can learn about it. Can you return it in the following JSON format: {"questions": [{"question": "How can I survive in a desert?", "answer": "Don't go there"}]}?`
+					content: `${textPrompt} Can you setup 10 questions and answers about the previous question so I can learn about it. Can you return only the following JSON format: {"questions": [{"question": "How can I survive in a desert?", "answer": "Don't go there"}]}?`
 				}
 			]
 		});

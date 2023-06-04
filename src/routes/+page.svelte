@@ -79,7 +79,7 @@
 
 		return async ({ action, result }: any) => {
 			let resultObject = JSON.parse(JSON.stringify(result));
-
+            console.log(resultObject)
 			if (action.search == '?/submit') {
 				if (resultObject.status == 200) {
 					if (resultObject.data.response) {
