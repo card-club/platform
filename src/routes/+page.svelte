@@ -55,6 +55,7 @@
 				'Try to focus on survival tasks and take it one day at a time. Keep your mind and body active to maintain your physical and mental health.'
 		}
 	];
+    let error = '';
 	let isFocused = false;
 	let loading = false;
 	function onFocus() {
@@ -75,24 +76,20 @@
     }
 
 	const handleSubmit: SubmitFunction = () => {
+        error='';
 		loading = true;
 
 		return async ({ action, result }: any) => {
-			let resultObject = JSON.parse(JSON.stringify(result));
-            console.log(resultObject)
-			if (action.search == '?/submit') {
-				if (resultObject.status == 200) {
-					if (resultObject.data.response) {
-						console.log(resultObject.data.response);
-						questions = JSON.parse(resultObject.data.response).questions;
-					}
-
-					loading = false;
-				} else {
-					loading = false;
-					alert('An error occurred, please try again.');
-				}
-			}
+            try {
+                questions = JSON.parse(result.data).questions;
+            } catch (e) {
+                try {
+                    JSON.parse(result.data.split('{')[1]).questions;
+                } catch (e) {
+                    error = result.data;
+                }
+            }
+            loading = false;
 		};
 	};
 </script>
@@ -181,18 +178,22 @@
         <button on:click={logout}>Logout</button>
     {/if}
 	<button on:click={toggleShowBack}>Toggle</button>
-	<div class="flex flex-wrap justify-center space-y-10 space-x-10 pb-10">
-		<div />
-		{#if questions}
-			{#each questions as { question, answer }}
-				<div class="flip-box">
-					<div class="flip-box-inner" class:flip-it={showCardBack}>
-						<Flashcard {question} {answer} {showCardBack} />
-					</div>
-				</div>
-			{/each}
-		{/if}
-	</div>
+    {#if error}
+        <p>{error}</p>
+    {:else}
+        <div class="flex flex-wrap justify-center space-y-10 space-x-10 pb-10">
+            <div />
+            {#if questions}
+                {#each questions as { question, answer }}
+                    <div class="flip-box">
+                        <div class="flip-box-inner" class:flip-it={showCardBack}>
+                            <Flashcard {question} {answer} {showCardBack} />
+                        </div>
+                    </div>
+                {/each}
+            {/if}
+        </div>
+    {/if}
 </main>
 
 <style>
