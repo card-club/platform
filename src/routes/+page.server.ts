@@ -15,22 +15,26 @@ export const actions: Actions = {
 		const openai = new OpenAIApi(configuration);
 		console.log("start createChatCompletion");
 
-		const textResponse = await openai.createChatCompletion({
-			model: 'gpt-3.5-turbo',
-			messages: [
-				{
-					role: 'user',
-					content: `${textPrompt} Can you setup 10 questions and answers about the previous question so I can learn about it. Can you return only the following JSON format: {"questions": [{"question": "How can I survive in a desert?", "answer": "Don't go there"}]}?`
-				}
-			]
-		});
-		console.log(textResponse);
-		if(textResponse?.data?.choices[0]?.message?.content) {
-			return {
-				response: textResponse.data.choices[0].message?.content
-			};
-		} else {
-			return textResponse
+		try {
+			const textResponse = await openai.createChatCompletion({
+				model: 'gpt-3.5-turbo',
+				messages: [
+					{
+						role: 'user',
+						content: `${textPrompt} Can you setup 10 questions and answers about the previous question so I can learn about it. Can you return only the following JSON format: {"questions": [{"question": "How can I survive in a desert?", "answer": "Don't go there"}]}?`
+					}
+				]
+			});
+			console.log(textResponse);
+			if(textResponse?.data?.choices[0]?.message?.content) {
+				return {
+					response: textResponse.data.choices[0].message?.content
+				};
+			} else {
+				return textResponse
+			}
+		} catch (e) {
+			console.log(e);
 		}
 	}
 };
