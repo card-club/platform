@@ -1,6 +1,7 @@
 import { Configuration, OpenAIApi } from 'openai';
 import { OPENAI_API_KEY } from '$env/static/private';
 import type { Actions } from './$types';
+import fetchAdapter from "@vespaiach/axios-fetch-adapter";
 
 export const actions: Actions = {
 	submit: async ({ request }: any) => {
@@ -8,7 +9,10 @@ export const actions: Actions = {
 		const textPrompt = promptFormData.get('search') as string;
 		console.log("start configuration");
 		const configuration = new Configuration({
-			apiKey: OPENAI_API_KEY
+			apiKey: OPENAI_API_KEY,
+			baseOptions: {
+				adapter: fetchAdapter
+			  }		  
 		});
 		console.log("config init");
 
