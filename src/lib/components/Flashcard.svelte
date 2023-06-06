@@ -40,22 +40,12 @@
 		text-align: center;
 	}
 
-	@keyframes revealTextSlowly {
-		to {
-			color: black;
-		}
-	}
-
-	.conceal-answer {
-		animation: revealTextSlowly 0.6s forwards;
-	}
-
 	/* Style the back side */
 	.flip-box-back {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		color: white;
+		color: black;
 		transform: rotateY(180deg);
 		font-size: 1.3rem;
 	}
