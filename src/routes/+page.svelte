@@ -1,138 +1,127 @@
 <script lang="ts">
-	import Flashcard from '$lib/components/Flashcard.svelte';
-	import { toast } from '@zerodevx/svelte-toast';
-	import { swipe } from 'svelte-gestures';
+	import { shortcut } from '$lib/utils/shortkey';
+	import Spinner from '$lib/components/Spinner.svelte';
 
-	let questions: any = [
-		{
-			question: 'What should I do immediately if my boat sinks?',
-			answer: 'Try to stay calm and get out of the boat as quickly as possible.'
-		},
-		{
-			question: 'What should I do if I cannot get out of the sinking boat?',
-			answer: 'Stay with the boat. It can provide some flotation and shelter from the elements.'
-		},
-		{
-			question: 'What should I do if I am in the water?',
-			answer:
-				'Try to find something that floats, like a piece of wreckage, or use your body to float.'
-		},
-		{
-			question: 'What should I do if I am alone?',
-			answer:
-				'Try to stay calm and conserve your energy. It is important to stay hydrated and try to find a source of food if possible.'
-		},
-		{
-			question: 'What should I do if I am with other people?',
-			answer:
-				'Try to keep everyone together if possible. Support each other mentally and physically.'
-		},
-		{
-			question: 'What should I do if I see a rescue plane or ship?',
-			answer:
-				'Use any means possible to signal for help, such as waving brightly colored clothing or using a mirror to reflect sunlight.'
-		},
-		{
-			question: 'How can I stay alive in the ocean?',
-			answer:
-				'Try to stay hydrated by drinking small amounts of seawater and rainwater. Find a source of food, such as fish or seaweed.'
-		},
-		{
-			question: 'What are the dangers of being in the ocean for an extended period of time?',
-			answer:
-				'Exposure to the sun and saltwater can cause dehydration, hypothermia, and physical stress. There is also the risk of encountering dangerous marine animals or storms.'
-		},
-		{
-			question: 'What should I do if it starts raining?',
-			answer: 'Try to collect rainwater using a tarpaulin, plastic bag, or any other container.'
-		},
-		{
-			question: 'What should I do if I am losing hope?',
-			answer:
-				'Try to focus on survival tasks and take it one day at a time. Keep your mind and body active to maintain your physical and mental health.'
-		}
-	];
-	let questionIndex = 0;
-	let question = questions[questionIndex].question;
-	let answer = questions[questionIndex].answer;
-    let error = '';
-	let showCardBack = false;
+	let isFocused = false;
+	let loading = false;
+	let searchText = '';
+	function onFocus() {
+		isFocused = true;
+	}
+	function onBlur() {
+		isFocused = false;
+	}
 
-	const toggleShowBack = () => (showCardBack = !showCardBack);
-	const previousCard = () => {
-		if (questionIndex === 0) {
-			toast.push('You are already on the first card.');
-		} else {
-			questionIndex--;
-			question = questions[questionIndex].question;
-			answer = questions[questionIndex].answer;
-			showCardBack = false;
-		}
-	};
-	const nextCard = () => {
-		if (questionIndex === questions.length - 1) {
-			toast.push('You are already on the last card.');
-		} else {
-			questionIndex++;
-			question = questions[questionIndex].question;
-			answer = questions[questionIndex].answer;
-			showCardBack = false;
-		}
-	};
+	const search = async (searchText: String) => {
+		const response = await fetch(`/api/search`, {
+			method: 'POST',
+			body: JSON.stringify({ searchText }),
+			headers: {
+                'content-type': 'application/json'
+            }
+		})
 
-	function swipeHandler(event: { detail: { direction: string; }; }) {
-		if(event.detail.direction === 'left') nextCard();
-		if(event.detail.direction === 'right') previousCard();
+		console.log('searching for', response);
 	}
 </script>
 
-<main use:swipe={{ timeframe: 300, minSwipeDistance: 60 }} on:swipe={swipeHandler} style="height: calc(100vh - 47px)" class="w-screen h-screen flex flex-col justify-start items-center bg-gray-100">
-    {#if error}
-        <p>{error}</p>
-    {:else}
-        <div class="flex flex-col justify-center items-center mt-16">
-			<div class="flip-box">
-				<div on:click={toggleShowBack} class="flip-box-inner cursor-pointer" class:flip-it={showCardBack}>
-					<Flashcard {question} {answer} {showCardBack} />
+<main style="height: calc(100vh - 47px)" class="bg-gradient-to-r from-gray-900 via-sky-950 to-gray-900 w-screen h-screen flex-col justify-center items-start bg-sky-950 overflow-y-auto">
+	<div  class="relative isolate overflow-hidden bg-gray-900 border-b-2 border-sky-950">
+		<div class="px-6 py-32">
+		  <div class="mx-auto max-w-2xl text-center">
+			<h1 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Easy learning with our <span class="underline">decks</span></h1>
+			<p class="mx-auto mt-6 max-w-xl text-base leading-8 text-gray-300">Find many high quality flashcard decks or<br> generate one yourself with the power of AI</p>
+			<div class="mt-6 -mb-20 flex items-center justify-center">
+				<div class="relative my-1 -mb-0.5 flex items-center">
+					<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+						{#if isFocused}
+							<p class="text-4xl text-gray-500 pt-1.5">⌨</p>
+						{:else}
+							<svg
+								aria-hidden="true"
+								class="w-5 h-5 text-gray-500 dark:text-gray-400"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+								xmlns="http://www.w3.org/2000/svg"
+								><path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+								/></svg
+							>
+						{/if}
+					</div>
+					<input
+						on:keydown={async (event) => {
+							if (event.key === 'Escape') {
+								event.target?.blur();
+							}
+							if (event.key === 'Enter') {
+								loading = true;
+								if (searchText) await search(searchText);
+								loading = false;
+							}
+						}}
+						on:focus={onFocus}
+						on:blur={onBlur}
+						use:shortcut={{
+							shift: true,
+							code: 'KeyS',
+							callback: () => document.getElementById('search')?.focus()
+						}}
+						bind:value={searchText}
+						autocomplete="off"
+						type="text"
+						name="search"
+						id="search"
+						placeholder="What do you want to learn today?"
+						class={`${
+							isFocused ? 'pr-20' : 'pr-24'
+						} pl-12 block w-[400px] rounded-full border-0 pb-1.5 pt-2 pr-18 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6`}
+					/>
+					{#if loading}
+						<div class="absolute inset-y-0 right-0 flex py-2 pr-1.5">
+							<Spinner size={2} />
+						</div>
+					{:else if isFocused}
+						<div class="absolute inset-y-0 right-2 flex py-2 pr-1.5">
+							<kbd
+								class="inline-flex items-center rounded border border-gray-200 px-1 font-sans text-xs text-gray-400"
+								>Enter ⏎</kbd
+							>
+						</div>
+					{:else}
+						<div class="absolute inset-y-0 right-2 flex py-2 pr-1.5">
+							<kbd
+								class="inline-flex items-center rounded border border-gray-200 px-1 font-sans text-xs text-gray-400"
+								>Shift ⇧ + S</kbd
+							>
+						</div>
+					{/if}
 				</div>
 			</div>
-			<div class="flex justify-center items-center space-x-4 pt-4">
-				<button class="text-xl cursor-pointer text-gray-800 bg-white w-10 h-10 rounded-full flex justify-center items-center pr-1 border" on:click={previousCard}>
-					<svg class="flip-it" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="16" height="16" viewBox="0 0 124.512 124.512">
-						<path d="m113.956 57.006-97.4-56.2c-4-2.3-9 .6-9 5.2v112.5c0 4.6 5 7.5 9 5.2l97.4-56.2c4-2.401 4-8.2 0-10.5z"/>
-					</svg>
-				</button>
-				<p class="text-lg cursor-pointer text-gray-700">{questionIndex + 1 }/{questions.length}</p>
-				<button class="text-xl cursor-pointer text-gray-800 bg-white w-10 h-10 rounded-full flex justify-center items-center pl-1 border" on:click={nextCard}>
-					<svg  xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="16" height="16" viewBox="0 0 124.512 124.512">
-						<path d="m113.956 57.006-97.4-56.2c-4-2.3-9 .6-9 5.2v112.5c0 4.6 5 7.5 9 5.2l97.4-56.2c4-2.401 4-8.2 0-10.5z"/>
-					</svg>
-				</button>
-			</div>
-        </div>
-    {/if}
+		  </div>
+		</div>
+		<svg viewBox="0 0 1024 1024" class="absolute left-1/2 top-1/2 -z-10 h-[32rem] w-[64rem] -translate-x-1/2 [mask-image:radial-gradient(closest-side,white,transparent)]" aria-hidden="true">
+		  <circle cx="512" cy="512" r="512" fill="url(#8d958450-c69f-4251-94bc-4e091a323369)" fill-opacity="0.7" />
+		  <defs>
+			<radialGradient id="8d958450-c69f-4251-94bc-4e091a323369">
+			  <stop stop-color="#EF4444" />
+			  <stop offset="1" stop-color="#38bdf8" />
+			</radialGradient>
+		  </defs>
+		</svg>
+	  </div>	  
+	
+	<h1 class="border-b-2 border-r border-t border-l border-sky-300 text-center text-lg mt-10 mb-12 text-white bg-sky-800 w-[220px] mx-auto px-2 pb-1 pt-1.5 font-light rounded-br-md rounded-tl-md">Highlighted Flashcards</h1>
+	<div class="flex flex-wrap justify-center items-start">
+		{#each [1,2,3,4,5,6] as card}
+			<a href="/" class="card mb-10 mx-10 hover:-translate-y-0.5 cursor-pointer border-2 border-sky-300 flex-col justify-center items-center">
+				<img class="rounded-tl-3xl rounded-tr-3xl" src="https://loremflickr.com/640/360" alt="">
+				<h2 class="text-lg truncate w-[360px] break-normal text-center mt-2">How do you survive a hurricane?</h2>
+			</a>
+		{/each}
+	</div>
 </main>
-
-<style>
-	/* The flip box container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
-	.flip-box {
-		background-color: transparent;
-		height: 260px;
-		width: 380px;
-		perspective: 1000px; /* Remove this if you don't want the 3D effect */
-	}
-
-	/* This container is needed to position the front and back side */
-	.flip-box-inner {
-		position: relative;
-		width: 100%;
-		height: 100%;
-		transition: transform 0.4s;
-		transform-style: preserve-3d;
-	}
-
-	/* Do an horizontal flip on button click */
-	.flip-it {
-		transform: rotateY(180deg);
-	}
-</style>

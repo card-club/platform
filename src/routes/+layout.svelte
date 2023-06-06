@@ -1,14 +1,10 @@
 <script lang="ts">
 	import { SvelteToast, toast } from '@zerodevx/svelte-toast';
-	import { shortcut } from '$lib/utils/shortkey';
 	import '../app.css';
-	import Spinner from '$lib/components/Spinner.svelte';
 	import { defaultEvmStores, signerAddress, signer } from 'ethers-svelte';
 	import { authenticated } from '$lib/stores/auth';
 
-	let isFocused = false;
-	let loading = false;
-	let searchText = '';
+
 	const options = {
 		reversed: false,
 		intro: {
@@ -17,24 +13,8 @@
 		}
 	};
 
-	function onFocus() {
-		isFocused = true;
-	}
-	function onBlur() {
-		isFocused = false;
-	}
 
-	const search = async (searchText: String) => {
-		const response = await fetch(`/api/search`, {
-			method: 'POST',
-			body: JSON.stringify({ searchText }),
-			headers: {
-                'content-type': 'application/json'
-            }
-		})
 
-		console.log('searching for', response);
-	}
 
 	const connect = async () => {
         defaultEvmStores.setProvider().then(async () => {
@@ -90,76 +70,7 @@
 		<h1 class="text-[26px]">ard.Club</h1>
 	</a>	
 	
-	<!-- TODO: under 800 px width need to its own full-width -->
-	<div class="relative my-1 -mb-0.5 flex items-center hidden lg:block">
-		<div class="absolute -top-1.5 inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-			{#if isFocused}
-				<p class="text-4xl text-gray-500 pt-1.5">⌨</p>
-			{:else}
-				<svg
-					aria-hidden="true"
-					class="w-5 h-5 text-gray-500 dark:text-gray-400"
-					fill="none"
-					stroke="currentColor"
-					viewBox="0 0 24 24"
-					xmlns="http://www.w3.org/2000/svg"
-					><path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-					/></svg
-				>
-			{/if}
-		</div>
-		<input
-			on:keydown={async (event) => {
-				if (event.key === 'Escape') {
-					event.target?.blur();
-				}
-				if (event.key === 'Enter') {
-					loading = true;
-					if (searchText) await search(searchText);
-					loading = false;
-				}
-			}}
-			on:focus={onFocus}
-			on:blur={onBlur}
-			use:shortcut={{
-				shift: true,
-				code: 'KeyS',
-				callback: () => document.getElementById('search')?.focus()
-			}}
-			bind:value={searchText}
-			autocomplete="off"
-			type="text"
-			name="search"
-			id="search"
-			placeholder="What do you want to learn today?"
-			class={`${
-				isFocused ? 'pr-20' : 'pr-24'
-			} pl-12 block w-[400px] rounded-full border-0 pb-1.5 pt-2 pr-18 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6`}
-		/>
-		{#if loading}
-			<div class="absolute -top-1.5 inset-y-0 right-0 flex py-3 pr-1.5">
-				<Spinner size={2} />
-			</div>
-		{:else if isFocused}
-			<div class="absolute -top-1.5 inset-y-0 right-2 flex py-3 pr-1.5">
-				<kbd
-					class="inline-flex items-center rounded border border-gray-200 px-1 font-sans text-xs text-gray-400"
-					>Enter ⏎</kbd
-				>
-			</div>
-		{:else}
-			<div class="absolute -top-1.5 inset-y-0 right-2 flex py-3 pr-1.5">
-				<kbd
-					class="inline-flex items-center rounded border border-gray-200 px-1 font-sans text-xs text-gray-400"
-					>Shift ⇧ + S</kbd
-				>
-			</div>
-		{/if}
-	</div>
+
 	
 	
 	<!-- Login -->

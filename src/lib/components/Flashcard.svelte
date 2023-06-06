@@ -25,7 +25,8 @@
 		backface-visibility: hidden;
 		padding: 15px;
 		border-radius: 20px;
-		box-shadow: 0px 0.5px 3px grey;
+		border: 2px solid lightblue;
+		box-shadow: 0px 2px 1px lightblue;
 		background-color: #fff;
 	}
 
