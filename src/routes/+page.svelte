@@ -90,9 +90,17 @@
 				</div>
 			</div>
 			<div class="flex justify-center items-center space-x-4 pt-4">
-				<button class="text-xl cursor-pointer text-gray-800 bg-white w-10 h-10 rounded-full pt-1 pr-1 border" on:click={previousCard}>◀</button>
+				<button class="text-xl cursor-pointer text-gray-800 bg-white w-10 h-10 rounded-full flex justify-center items-center pr-1 border" on:click={previousCard}>
+					<svg class="flip-it" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="16" height="16" viewBox="0 0 124.512 124.512">
+						<path d="m113.956 57.006-97.4-56.2c-4-2.3-9 .6-9 5.2v112.5c0 4.6 5 7.5 9 5.2l97.4-56.2c4-2.401 4-8.2 0-10.5z"/>
+					</svg>
+				</button>
 				<p class="text-lg cursor-pointer text-gray-700">{questionIndex + 1 }/{questions.length}</p>
-				<button class="text-xl cursor-pointer text-gray-800 bg-white w-10 h-10 rounded-full pt-1 pl-1 border" on:click={nextCard}>▶</button>
+				<button class="text-xl cursor-pointer text-gray-800 bg-white w-10 h-10 rounded-full flex justify-center items-center pl-1 border" on:click={nextCard}>
+					<svg  xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="16" height="16" viewBox="0 0 124.512 124.512">
+						<path d="m113.956 57.006-97.4-56.2c-4-2.3-9 .6-9 5.2v112.5c0 4.6 5 7.5 9 5.2l97.4-56.2c4-2.401 4-8.2 0-10.5z"/>
+					</svg>
+				</button>
 			</div>
         </div>
     {/if}

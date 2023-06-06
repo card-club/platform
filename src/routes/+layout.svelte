@@ -187,5 +187,7 @@
 	  --toastContainerRight: 2rem;
 	  --toastContainerBottom: 2rem;
 	  --toastContainerLeft: auto;
+	  --toastBackground: #fff;
+	  --toastColor: #1F2937;
 	}</style>
   
