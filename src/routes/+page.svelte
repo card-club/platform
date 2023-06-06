@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Flashcard from '$lib/components/Flashcard.svelte';
 	import { toast } from '@zerodevx/svelte-toast';
+	import { swipe } from 'svelte-gestures';
 
 	let questions: any = [
 		{
@@ -56,6 +57,7 @@
 	let answer = questions[questionIndex].answer;
     let error = '';
 	let showCardBack = false;
+
 	const toggleShowBack = () => (showCardBack = !showCardBack);
 	const previousCard = () => {
 		if (questionIndex === 0) {
@@ -77,9 +79,14 @@
 			showCardBack = false;
 		}
 	};
+
+	function swipeHandler(event: { detail: { direction: string; }; }) {
+		if(event.detail.direction === 'left') nextCard();
+		if(event.detail.direction === 'rigth') previousCard();
+	}
 </script>
 
-<main style="height: calc(100vh - 47px)" class="w-screen h-screen flex flex-col justify-start items-center bg-gray-100">
+<main use:swipe={{ timeframe: 300, minSwipeDistance: 60 }} on:swipe={swipeHandler} style="height: calc(100vh - 47px)" class="w-screen h-screen flex flex-col justify-start items-center bg-gray-100">
     {#if error}
         <p>{error}</p>
     {:else}
