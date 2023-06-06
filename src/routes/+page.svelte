@@ -82,7 +82,7 @@
 
 	function swipeHandler(event: { detail: { direction: string; }; }) {
 		if(event.detail.direction === 'left') nextCard();
-		if(event.detail.direction === 'rigth') previousCard();
+		if(event.detail.direction === 'right') previousCard();
 	}
 </script>
 
