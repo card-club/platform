@@ -5,7 +5,7 @@
 </script>
 
 <div class="flip-box-front">
-	<div id="image-cont">
+	<div>
 		<h2>{question}</h2>
 	</div>
 </div>
@@ -19,19 +19,19 @@
 	.flip-box-front,
 	.flip-box-back {
 		position: absolute;
-		height: 280px;
-		width: 400px;
-		-webkit-backface-visibility: hidden; /* Safari */
+		height: 260px;
+		width: 380px;
+		-webkit-backface-visibility: hidden; 
 		backface-visibility: hidden;
 		padding: 15px;
-		border: 1px solid;
-		border-radius: 25px;
+		border-radius: 20px;
 		box-shadow: 0px 0.5px 3px grey;
+		background-color: #fff;
 	}
 
 	/* Style the front side */
 	.flip-box-front {
-		background-color: #ddd;
+		background-color: #fff;
 		color: black;
 		display: flex;
 		justify-content: center;
@@ -42,7 +42,7 @@
 
 	@keyframes revealTextSlowly {
 		to {
-			color: darkgrey;
+			color: black;
 		}
 	}
 

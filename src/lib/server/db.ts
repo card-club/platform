@@ -5,3 +5,5 @@ const redis = new Redis({
 	url: UPSTASH_URL,
 	token: UPSTASH_API_TOKEN
 });
+
+export default redis;
