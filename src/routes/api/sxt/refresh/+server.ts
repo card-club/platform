@@ -2,6 +2,7 @@ import { error, json } from '@sveltejs/kit';
 import { BEARER_TOKEN } from '$env/static/private';
 import redis from '$lib/server/db.js';
 import {SXT_PRIVATE_KEY, SXT_API_URL, SXT_USER_ID, SXT_PUBLIC_KEY} from '$env/static/private';
+import { Buffer } from 'node:buffer';
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request }) {
