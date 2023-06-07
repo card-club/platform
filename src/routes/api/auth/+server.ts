@@ -1,5 +1,6 @@
 import { error, json } from '@sveltejs/kit';
 import { verifyMessage } from 'ethers';
+import redis from '$lib/server/db';
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request, cookies }) {
@@ -19,6 +20,8 @@ export async function POST({ request, cookies }) {
 	);
 
 	if (addr === address) {
+        await redis.zadd('users', {score: new Date().getTime(), member: address});
+        
 		cookies.set(
 			'verifier-cookie',
 			JSON.stringify({
