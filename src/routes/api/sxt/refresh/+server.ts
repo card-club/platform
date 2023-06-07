@@ -2,8 +2,14 @@ import { error, json } from '@sveltejs/kit';
 import { BEARER_TOKEN } from '$env/static/private';
 import redis from '$lib/server/db.js';
 import {SXT_PRIVATE_KEY, SXT_API_URL, SXT_USER_ID, SXT_PUBLIC_KEY} from '$env/static/private';
-import { Buffer } from 'node:buffer';
 
+function buf2hex(buffer: ArrayBuffer) { 
+	return [...new Uint8Array(buffer)]
+		.map(x => x.toString(16).padStart(2, '0'))
+		.join('');
+  }
+  
+  
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request }) {
 	const bearer_token = request.headers.get('Authorization')?.split(' ')[1];
@@ -48,7 +54,7 @@ export async function POST({ request }) {
 				body: JSON.stringify({
 					userId: SXT_USER_ID,
 					authCode: authCode,
-					signature: Buffer.from(myDigest).toString('hex').slice(0, 128),
+					signature: buf2hex(myDigest).slice(0, 128),
 					key: SXT_PUBLIC_KEY,
 					scheme: 'ed25519'
 				})
