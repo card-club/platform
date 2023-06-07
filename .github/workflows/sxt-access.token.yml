@@ -1,0 +1,13 @@
+name: Trigger SxT access token refresh
+
+on:
+  schedule:
+    # Token expires every 30 minutes, so after 20 minutes, refresh it
+    - cron: '0,20,40 * * * *'
+jobs:
+  build:
+    name: SxT access token refresh
+    runs-on: ubuntu-latest
+    steps:
+      - name: cURL request
+        run: "curl -X POST --header 'Authorization: Bearer testbearer' -d {} https://card.club/api/sxt/refresh"

@@ -1,6 +1,5 @@
 import { error, json } from '@sveltejs/kit';
 import { verifyMessage } from 'ethers';
-import redis from '$lib/server/db.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ request, cookies }) {
