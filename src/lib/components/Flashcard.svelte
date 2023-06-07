@@ -21,7 +21,7 @@
 		position: absolute;
 		height: 260px;
 		width: 380px;
-		-webkit-backface-visibility: hidden; 
+		-webkit-backface-visibility: hidden;
 		backface-visibility: hidden;
 		padding: 15px;
 		border-radius: 20px;

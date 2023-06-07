@@ -1,2 +1,1 @@
-buy ad 
-(form, ABI call smart contract)
+buy ad (form, ABI call smart contract)

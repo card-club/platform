@@ -1,3 +1,1 @@
-Editor
-
-(ChatGPT flow, check why it doesn’t work on mobile?)
+Editor (ChatGPT flow, check why it doesn’t work on mobile?)

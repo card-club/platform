@@ -3,7 +3,7 @@
 	import { toast } from '@zerodevx/svelte-toast';
 	import { swipe } from 'svelte-gestures';
 
-    // TODO: get questions from database
+	// TODO: get questions from database
 	let questions: any = [
 		{
 			question: 'What should I do immediately if my boat sinks?',
@@ -56,7 +56,7 @@
 	let questionIndex = 0;
 	let question = questions[questionIndex].question;
 	let answer = questions[questionIndex].answer;
-    let error = '';
+	let error = '';
 	let showCardBack = false;
 
 	const toggleShowBack = () => (showCardBack = !showCardBack);
@@ -81,37 +81,69 @@
 		}
 	};
 
-	function swipeHandler(event: { detail: { direction: string; }; }) {
-		if(event.detail.direction === 'left') nextCard();
-		if(event.detail.direction === 'right') previousCard();
+	function swipeHandler(event: { detail: { direction: string } }) {
+		if (event.detail.direction === 'left') nextCard();
+		if (event.detail.direction === 'right') previousCard();
 	}
 </script>
 
-<main use:swipe={{ timeframe: 300, minSwipeDistance: 60 }} on:swipe={swipeHandler} style="height: calc(100vh - 47px)" class="bg-gradient-to-r from-gray-900 via-sky-950 to-gray-900 w-screen h-screen flex flex-col justify-start items-center bg-gray-100">
-    {#if error}
-        <p>{error}</p>
-    {:else}
-        <div class="flex flex-col justify-center items-center mt-16">
+<main
+	use:swipe={{ timeframe: 300, minSwipeDistance: 60 }}
+	on:swipe={swipeHandler}
+	style="height: calc(100vh - 47px)"
+	class="bg-gradient-to-r from-gray-900 via-sky-950 to-gray-900 w-screen h-screen flex flex-col justify-start items-center bg-gray-100"
+>
+	{#if error}
+		<p>{error}</p>
+	{:else}
+		<div class="flex flex-col justify-center items-center mt-16">
 			<div class="flip-box">
-				<div on:click={toggleShowBack} class="flip-box-inner cursor-pointer" class:flip-it={showCardBack}>
+				<div
+					on:click={toggleShowBack}
+					class="flip-box-inner cursor-pointer"
+					class:flip-it={showCardBack}
+				>
 					<Flashcard {question} {answer} {showCardBack} />
 				</div>
 			</div>
 			<div class="flex justify-center items-center space-x-4 pt-4">
-				<button class="text-xl cursor-pointer text-gray-800 bg-white w-10 h-10 rounded-full flex justify-center items-center pr-1 border-[3.5px] border-sky-300" on:click={previousCard}>
-					<svg class="flip-it" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="16" height="16" viewBox="0 0 124.512 124.512">
-						<path d="m113.956 57.006-97.4-56.2c-4-2.3-9 .6-9 5.2v112.5c0 4.6 5 7.5 9 5.2l97.4-56.2c4-2.401 4-8.2 0-10.5z"/>
+				<button
+					class="text-xl cursor-pointer text-gray-800 bg-white w-10 h-10 rounded-full flex justify-center items-center pr-1 border-[3.5px] border-sky-300"
+					on:click={previousCard}
+				>
+					<svg
+						class="flip-it"
+						xmlns="http://www.w3.org/2000/svg"
+						xml:space="preserve"
+						width="16"
+						height="16"
+						viewBox="0 0 124.512 124.512"
+					>
+						<path
+							d="m113.956 57.006-97.4-56.2c-4-2.3-9 .6-9 5.2v112.5c0 4.6 5 7.5 9 5.2l97.4-56.2c4-2.401 4-8.2 0-10.5z"
+						/>
 					</svg>
 				</button>
-				<p class="text-lg cursor-pointer text-sky-100">{questionIndex + 1 }/{questions.length}</p>
-				<button class="text-xl cursor-pointer text-gray-800 bg-white w-10 h-10 rounded-full flex justify-center items-center pl-1 border-[3.5px] border-sky-300" on:click={nextCard}>
-					<svg  xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="16" height="16" viewBox="0 0 124.512 124.512">
-						<path d="m113.956 57.006-97.4-56.2c-4-2.3-9 .6-9 5.2v112.5c0 4.6 5 7.5 9 5.2l97.4-56.2c4-2.401 4-8.2 0-10.5z"/>
+				<p class="text-lg cursor-pointer text-sky-100">{questionIndex + 1}/{questions.length}</p>
+				<button
+					class="text-xl cursor-pointer text-gray-800 bg-white w-10 h-10 rounded-full flex justify-center items-center pl-1 border-[3.5px] border-sky-300"
+					on:click={nextCard}
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						xml:space="preserve"
+						width="16"
+						height="16"
+						viewBox="0 0 124.512 124.512"
+					>
+						<path
+							d="m113.956 57.006-97.4-56.2c-4-2.3-9 .6-9 5.2v112.5c0 4.6 5 7.5 9 5.2l97.4-56.2c4-2.401 4-8.2 0-10.5z"
+						/>
 					</svg>
 				</button>
 			</div>
-        </div>
-    {/if}
+		</div>
+	{/if}
 </main>
 
 <style>
