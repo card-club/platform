@@ -140,7 +140,7 @@
 	<div class="flex flex-wrap justify-center items-start">
 		{#each [1, 2, 3, 4, 5, 6] as card}
 			<a
-				href="/"
+				href="/publisher/1/deck/1"
 				class="card mb-10 mx-10 hover:-translate-y-0.5 cursor-pointer border-2 border-sky-300 flex-col justify-center items-center"
 			>
 				<img class="rounded-tl-3xl rounded-tr-3xl" src="https://loremflickr.com/640/360" alt="" />

@@ -1,7 +1,22 @@
 <script lang="ts">
 	import Flashcard from '$lib/components/Flashcard.svelte';
 	import { toast } from '@zerodevx/svelte-toast';
+	import { onMount } from 'svelte';
 	import { swipe } from 'svelte-gestures';
+
+    onMount(async () => {
+        await fetch(`/api/analytics`, {
+					method: 'POST',
+					body: JSON.stringify({
+						event_type: 'deck_start',
+                        publisher_id: '1',
+                        deck_id: '1',
+					}),
+					headers: {
+						'content-type': 'application/json'
+					}
+				});
+    });
 
 	// TODO: get questions from database
 	let questions: any = [
@@ -70,7 +85,7 @@
 			showCardBack = false;
 		}
 	};
-	const nextCard = () => {
+	const nextCard = async () => {
 		if (questionIndex === questions.length - 1) {
 			toast.push('You are already on the last card.');
 		} else {
@@ -78,6 +93,19 @@
 			question = questions[questionIndex].question;
 			answer = questions[questionIndex].answer;
 			showCardBack = false;
+            if (questionIndex === questions.length - 1) {
+                await fetch(`/api/analytics`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        event_type: 'deck_end',
+                        publisher_id: '1',
+                        deck_id: '1',
+                    }),
+                    headers: {
+						'content-type': 'application/json'
+					}
+                })
+            }
 		}
 	};
 
