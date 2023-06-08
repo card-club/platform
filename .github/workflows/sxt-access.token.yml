@@ -4,10 +4,12 @@ on:
   schedule:
     # Token expires every 30 minutes, so after 10 minutes (could fail two times and still would not be an issue), refresh it
     - cron: '0,10,20,30,40,50 * * * *'
+
 jobs:
   build:
     name: SxT access token refresh
     runs-on: ubuntu-latest
     steps:
       - name: cURL request
-        run: 'curl -X POST --header "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" https://card.club/api/sxt/refresh'
+        run: |
+          curl -X POST --header "Authorization: Bearer ${{ secrets.BEARER_TOKEN }}" https://card.club/api/sxt/refresh
