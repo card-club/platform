@@ -2,8 +2,8 @@ name: Trigger SxT access token refresh
 
 on:
   schedule:
-    # Token expires every 30 minutes, so after 20 minutes, refresh it
-    - cron: '0,20,40 * * * *'
+    # Token expires every 30 minutes, so after 10 minutes (could fail two times and still would not be an issue), refresh it
+    - cron: '0,10,20,30,40,50 * * * *'
 jobs:
   build:
     name: SxT access token refresh
@@ -13,4 +13,3 @@ jobs:
         run: "curl -X POST --header 'Authorization: Bearer $BEARER_TOKEN' -d {} https://card.club/api/sxt/refresh"
         env:       
           BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
-
