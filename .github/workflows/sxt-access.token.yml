@@ -11,5 +11,5 @@ jobs:
     steps:
       - name: cURL request
         run: "curl -X POST --header 'Authorization: Bearer $BEARER_TOKEN' -d {} https://card.club/api/sxt/refresh"
-        env:       
+        env:
           BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}

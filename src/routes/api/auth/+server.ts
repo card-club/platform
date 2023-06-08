@@ -20,8 +20,8 @@ export async function POST({ request, cookies }) {
 	);
 
 	if (addr === address) {
-        await redis.zadd('users', {score: new Date().getTime(), member: address});
-        
+		await redis.zadd('users', { score: new Date().getTime(), member: address });
+
 		cookies.set(
 			'verifier-cookie',
 			JSON.stringify({

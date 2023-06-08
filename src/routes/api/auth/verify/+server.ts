@@ -7,9 +7,9 @@ export async function GET({ request, cookies }) {
 	if (!cookie) {
 		throw error(401, { message: 'Unauthorized' });
 	}
-    const { signed, address, datetimenow, datetimefutureweek } = JSON.parse(cookie);
+	const { signed, address, datetimenow, datetimefutureweek } = JSON.parse(cookie);
 
-    const addr = verifyMessage(
+	const addr = verifyMessage(
 		`You are logging in to Card.Club at UTC time: ${datetimenow}. \n\nThis session is valid until UTC time: ${datetimefutureweek}`,
 		signed
 	);
@@ -17,7 +17,7 @@ export async function GET({ request, cookies }) {
 	if (new Date().getTime() < Date.parse(datetimefutureweek) && addr === address) {
 		return json({
 			authenticated: true,
-            address: addr
+			address: addr
 		});
 	} else {
 		throw error(401, { message: 'Unauthorized' });

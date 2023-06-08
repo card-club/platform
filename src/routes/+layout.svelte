@@ -31,7 +31,7 @@
 		defaultEvmStores
 			.setProvider()
 			.then(async () => {
-				address = $signerAddress
+				address = $signerAddress;
 				const now = new Date();
 				const datetimenow = now.toUTCString();
 				const weekInMilliseconds = 1000 * 60 * 60 * 24 * 7;
@@ -102,10 +102,10 @@
 		<a href="/your-decks" class="hover:border-b"> Your Decks </a>
 	</div>
 
-    {#if loading}
+	{#if loading}
 		<button
-		class="flex justify-center items-center w-[170px] text-gray-800 text-base h-[38px] sm:mr-2 mr-0.5 border border-gray-200 hover:border-gray-400 my-1 pt-1 rounded"
-		on:click={connect}
+			class="flex justify-center items-center w-[170px] text-gray-800 text-base h-[38px] sm:mr-2 mr-0.5 border border-gray-200 hover:border-gray-400 my-1 pt-1 rounded"
+			on:click={connect}
 		>
 			<svg
 				class="mr-2 mb-1 fill-gray-600"
