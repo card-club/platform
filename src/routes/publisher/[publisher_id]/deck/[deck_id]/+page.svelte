@@ -64,6 +64,19 @@
 					}
 				});
 			}
+            if (questionIndex === questions.length - 1) {
+				await fetch(`/api/analytics`, {
+					method: 'POST',
+					body: JSON.stringify({
+						event_type: 'ad_view',
+						publisher_id: '1',
+						deck_id: '1'
+					}),
+					headers: {
+						'content-type': 'application/json'
+					}
+				});
+			}
 		}
 	};
 
