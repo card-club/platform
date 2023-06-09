@@ -116,11 +116,10 @@ const boughtAdViews = httpRequest(
   .catch((error) => console.error(error));
 
 return boughtAdViews;
-
 `;
 
 
-                                await $contracts.cardclub.purchaseAd(parseEther("1.0"), scriptString, "0xd8d3e2ca849645100f72a12b69d37a3903d1eac09c3591f6867f4fbe996d1f66c59a3206a3481b5b3c37392fc65eb0cf279b98c5cc1032fcd9b6d8befe14276c9854aee8ebca515c8954e1490804392a92a86831755c530fcc3b6c1879d8c10f24dad7532fcffab17336c0ef079e677398477856bfd0106920922657063e53256e", ["1","12"], 34, 290000)
+                                const tx = await $contracts.cardclub.purchaseAd(parseEther("1.0"), scriptString, "0x68747470733a2f2f6578616d706c655365637265747355524c2e636f6d2f66303966613064623864316338666162383836316563393762316437666466312f7261772f643439626264323064633536326630333562646638383332333939383836626165666139373063392f656e637279707465642d66756e6374696f6e732d726571756573742d646174612d313637393934313538303837352e6a736f6e", [ "1", "12" ], 34, 300000, { gasLimit: 1500000, gasPrice: undefined })
                             }}  class="mt-4 w-full rounded-md bg-sky-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Buy ad for 1 link</button>
                         </div>
                     </div>
