@@ -2,6 +2,34 @@
 	import { shortcut } from '$lib/utils/shortkey';
 	import Spinner from '$lib/components/Spinner.svelte';
 
+	const highlightedDecks = [
+		{
+			deck_id: "how-to-survive-a-hurricane",
+			title: 'How do you survive a hurricane?',
+			img: '/survive-hurricane.png',
+		}, {
+			deck_id: "what-is-the-flu",
+			title: 'Learn more about the flu',
+			img: '/what-is-flu.png',
+		},{
+			deck_id: "how-is-steel-used-in-constructions",
+			title: 'Why is steel used in constructions?',
+			img: '/steel-in-constructions.png',
+		},{
+			deck_id: "how-can-you-prevent-skin-aging",
+			title: 'How can you prevent skin aging?',
+			img: '/skin-aging.png',
+		},{
+			deck_id: "what-is-the-elephant-social-behaviour",
+			title: 'What is the behaviour of an elephant?',
+			img: '/elephant-behaviour.png',
+		},{
+			deck_id: "why-are-shiitake-mushrooms-so-healthy",
+			title: 'Why are shiitake mushrooms so healthy?',
+			img: '/shiitake.png',
+		}
+	];
+
 	let isFocused = false;
 	let loading = false;
 	let searchText = '';
@@ -138,14 +166,14 @@
 		Highlighted Flashcards
 	</h1>
 	<div class="flex flex-wrap justify-center items-start">
-		{#each [1, 2, 3, 4, 5, 6] as card}
+		{#each highlightedDecks as deck}
 			<a
-				href="/publisher/1/deck/1"
+				href={`/publisher/1/deck/${deck.deck_id}`}
 				class="card mb-10 mx-10 hover:-translate-y-0.5 cursor-pointer border-2 border-sky-300 flex-col justify-center items-center"
 			>
-				<img class="rounded-tl-3xl rounded-tr-3xl" src="https://loremflickr.com/640/360" alt="" />
+				<img class="rounded-tl-3xl rounded-tr-3xl" src={deck.img} alt="" />
 				<h2 class="text-lg truncate w-[360px] break-normal text-center mt-2">
-					How do you survive a hurricane?
+					{deck.title}
 				</h2>
 			</a>
 		{/each}

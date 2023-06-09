@@ -5,69 +5,22 @@
 	import { swipe } from 'svelte-gestures';
 
     onMount(async () => {
-        await fetch(`/api/analytics`, {
-					method: 'POST',
-					body: JSON.stringify({
-						event_type: 'deck_start',
-                        publisher_id: '1',
-                        deck_id: '1',
-					}),
-					headers: {
-						'content-type': 'application/json'
-					}
-				});
-    });
-
+		const resp = await fetch(`/api/analytics`, {
+			method: 'POST',
+			body: JSON.stringify({
+				event_type: 'deck_start',
+				publisher_id: '1',
+				deck_id: '1'
+			}),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+		console.log(await resp.json());
+	});
+    export let data;
 	// TODO: get questions from database
-	let questions: any = [
-		{
-			question: 'What should I do immediately if my boat sinks?',
-			answer: 'Try to stay calm and get out of the boat as quickly as possible.'
-		},
-		{
-			question: 'What should I do if I cannot get out of the sinking boat?',
-			answer: 'Stay with the boat. It can provide some flotation and shelter from the elements.'
-		},
-		{
-			question: 'What should I do if I am in the water?',
-			answer:
-				'Try to find something that floats, like a piece of wreckage, or use your body to float.'
-		},
-		{
-			question: 'What should I do if I am alone?',
-			answer:
-				'Try to stay calm and conserve your energy. It is important to stay hydrated and try to find a source of food if possible.'
-		},
-		{
-			question: 'What should I do if I am with other people?',
-			answer:
-				'Try to keep everyone together if possible. Support each other mentally and physically.'
-		},
-		{
-			question: 'What should I do if I see a rescue plane or ship?',
-			answer:
-				'Use any means possible to signal for help, such as waving brightly colored clothing or using a mirror to reflect sunlight.'
-		},
-		{
-			question: 'How can I stay alive in the ocean?',
-			answer:
-				'Try to stay hydrated by drinking small amounts of seawater and rainwater. Find a source of food, such as fish or seaweed.'
-		},
-		{
-			question: 'What are the dangers of being in the ocean for an extended period of time?',
-			answer:
-				'Exposure to the sun and saltwater can cause dehydration, hypothermia, and physical stress. There is also the risk of encountering dangerous marine animals or storms.'
-		},
-		{
-			question: 'What should I do if it starts raining?',
-			answer: 'Try to collect rainwater using a tarpaulin, plastic bag, or any other container.'
-		},
-		{
-			question: 'What should I do if I am losing hope?',
-			answer:
-				'Try to focus on survival tasks and take it one day at a time. Keep your mind and body active to maintain your physical and mental health.'
-		}
-	];
+	let questions: any = data.questions;
 	let questionIndex = 0;
 	let question = questions[questionIndex].question;
 	let answer = questions[questionIndex].answer;
@@ -93,19 +46,19 @@
 			question = questions[questionIndex].question;
 			answer = questions[questionIndex].answer;
 			showCardBack = false;
-            if (questionIndex === questions.length - 1) {
-                await fetch(`/api/analytics`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        event_type: 'deck_end',
-                        publisher_id: '1',
-                        deck_id: '1',
-                    }),
-                    headers: {
+			if (questionIndex === questions.length - 1) {
+				await fetch(`/api/analytics`, {
+					method: 'POST',
+					body: JSON.stringify({
+						event_type: 'deck_end',
+						publisher_id: '1',
+						deck_id: '1'
+					}),
+					headers: {
 						'content-type': 'application/json'
 					}
-                })
-            }
+				});
+			}
 		}
 	};
 
