@@ -57,31 +57,70 @@
                                 {/await}
                             </div>
                             <button on:click={async() => {
-                                const scriptString = `const linkAmount = args[0]; const publisherId = args[1]; if (!linkAmount) { throw "Link amount is required"; } if (!publisherId) { throw "Publisher ID is required"; } // Max retries HTTP requests are 4 because total HTTP requests a Chainlink Function can do is 5 https://docs.chain.link/chainlink-functions/resources/service-limits function httpRequest(url
-headers
-data
-retries = 4) { return new Promise((resolve
-reject) => { // Timeout 3000ms is because of the chainlink service limits Functions.makeHttpRequest({ url
-headers
-data
-method: "POST" }) .then((response) => { if (response.statusText === "OK") { resolve(response.data); } else if (retries > 0) { console.log(\`Retry attempts remaining: \${retries}\`); setTimeout(() => { httpRequest(url
-headers
-data
-retries - 1) .then(resolve) .catch(reject); }
-1000); // retry after 1 second } else { reject(new Error("Failed after 5 attempts")); } }) .catch((error) => { if (retries > 0) { console.log(\`Retry attempts remaining: \${retries}\`); setTimeout(() => { httpRequest(url
-headers
-data
-retries - 1) .then(resolve) .catch(reject); }
-1000); // retry after 1 second } else { reject(error); } }); }); } const boughtAdViews = httpRequest( "https://card.club/api/ads"
-{ "Authorization": \`Bearer \${secrets.BEARER_TOKEN}\`
-"Content-Type": "application/json"
+                                const scriptString = `const linkAmount = args[0];
+const publisherId = args[1];
+
+if (!linkAmount) {
+  throw "Link amount is required";
 }
-{ publisherId: publisherId
-linkAmount: linkAmount } ) .then((data) => { return Functions.encodeUint256(data.adViews); }) .catch((error) => console.error(error)); return boughtAdViews;`;
 
-console.log(scriptString);
+if (!publisherId) {
+  throw "Publisher ID is required";
+}
 
-                                await $contracts.cardclub.purchaseAd(parseEther("1.0"), scriptString, "0xd8d3e2ca849645100f72a12b69d37a3903d1eac09c3591f6867f4fbe996d1f66c59a3206a3481b5b3c37392fc65eb0cf279b98c5cc1032fcd9b6d8befe14276c9854aee8ebca515c8954e1490804392a92a86831755c530fcc3b6c1879d8c10f24dad7532fcffab17336c0ef079e677398477856bfd0106920922657063e53256e", ["1","12"], 34, 300000)
+// Max retries HTTP requests are 4 because total HTTP requests a Chainlink Function can do is 5 https://docs.chain.link/chainlink-functions/resources/service-limits
+function httpRequest(url, headers, data, retries = 4) {
+  return new Promise((resolve, reject) => {
+    // Timeout 3000ms is because of the chainlink service limits
+    Functions.makeHttpRequest({ url, headers, data, method: "POST" })
+      .then((response) => {
+        if (response.statusText === "OK") {
+          resolve(response.data);
+        } else if (retries > 0) {
+          console.log(\`Retry attempts remaining: \${retries}\`);
+          setTimeout(() => {
+            httpRequest(url, headers, data, retries - 1)
+              .then(resolve)
+              .catch(reject);
+          }, 1000); // retry after 1 second
+        } else {
+          reject(new Error("Failed after 5 attempts"));
+        }
+      })
+      .catch((error) => {
+        if (retries > 0) {
+          console.log(\`Retry attempts remaining: \${retries}\`);
+          setTimeout(() => {
+            httpRequest(url, headers, data, retries - 1)
+              .then(resolve)
+              .catch(reject);
+          }, 1000); // retry after 1 second
+        } else {
+          reject(error);
+        }
+      });
+  });
+}
+
+const boughtAdViews = httpRequest(
+  "https://card.club/api/ads",
+  {
+    "Authorization": \`Bearer \${secrets.BEARER_TOKEN}\`,
+    "Content-Type": "application/json",
+  },
+  { publisherId: publisherId, linkAmount: linkAmount }
+)
+  .then((data) => {
+    return Functions.encodeUint256(data.adViews);
+  })
+  .catch((error) => console.error(error));
+
+return boughtAdViews;
+
+`;
+
+
+                                await $contracts.cardclub.purchaseAd(parseEther("1.0"), scriptString, "0xd8d3e2ca849645100f72a12b69d37a3903d1eac09c3591f6867f4fbe996d1f66c59a3206a3481b5b3c37392fc65eb0cf279b98c5cc1032fcd9b6d8befe14276c9854aee8ebca515c8954e1490804392a92a86831755c530fcc3b6c1879d8c10f24dad7532fcffab17336c0ef079e677398477856bfd0106920922657063e53256e", ["1","12"], 34, 290000)
                             }}  class="mt-4 w-full rounded-md bg-sky-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Buy ad for 1 link</button>
                         </div>
                     </div>
