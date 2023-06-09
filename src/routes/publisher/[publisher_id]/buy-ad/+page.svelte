@@ -18,7 +18,7 @@
 		console.log(encodeBytes32String('secretsauce'));
 		evm.setProvider();
 		evm.attachContract('chainlink', '0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846', chainlink);
-		evm.attachContract('cardclub', '0xC1d8469d6CfE4C3e842a9A9E76959aC6D7f51f58', cardclub);
+		evm.attachContract('cardclub', '0x8B5d01E6A0D7E996FA6Cd046E39a46fE9d515F8F', cardclub);
 		if ($signerAddress) {
 			authenticated.set(true);
 		}
@@ -111,7 +111,7 @@ return boughtAdViews;
         </div>
         {:else}
 		{#if $authenticated && $signerAddress}
-			{#await $contracts.chainlink.allowance($signerAddress, '0x16a0AE76e5A6A409aFc97f93bCb7B9Ec3E4de7A2')}
+			{#await $contracts.chainlink.allowance($signerAddress, '0x8B5d01E6A0D7E996FA6Cd046E39a46fE9d515F8F')}
             <div class="mt-10 bg-white shadow sm:rounded-lg">
                 <div class="px-4 py-5 sm:p-6">
                     <h3 class="text-base font-semibold leading-6 text-gray-900">
@@ -164,7 +164,7 @@ return boughtAdViews;
 										scriptString,
 										'0x68747470733a2f2f6578616d706c655365637265747355524c2e636f6d2f66303966613064623864316338666162383836316563393762316437666466312f7261772f643439626264323064633536326630333562646638383332333939383836626165666139373063392f656e637279707465642d66756e6374696f6e732d726571756573742d646174612d313637393934313538303837352e6a736f6e',
 										['1', '12'],
-										34,
+										35,
 										300000,
 										{ gasLimit: 1500000, gasPrice: undefined }
 									);
