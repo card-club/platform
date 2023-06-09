@@ -9,7 +9,9 @@ export async function POST({ request }) {
 	if (bearer_token === BEARER_TOKEN) {
 		const { publisherId, linkAmount } = await request.json();
 		// TODO: make publisherId configurable
-		await redis.set('publisher:1', true)
+		await redis.set('publisher:1', 'true')
+		// 1 link for 1 day ad
+		await redis.expire('publisher:1', 60 * 60 * 24 )
 		return json({
 			adViews: 1
 		});
