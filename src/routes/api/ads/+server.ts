@@ -7,6 +7,7 @@ export async function POST({ request }) {
 
 	if (bearer_token === BEARER_TOKEN) {
 		const { publisherId, linkAmount } = await request.json();
+		console.log("should work now, fingers crossed");
 		return json({
 			adViews: 1
 		});
