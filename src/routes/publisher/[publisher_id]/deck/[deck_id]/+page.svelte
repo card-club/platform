@@ -4,7 +4,7 @@
 	import { onMount } from 'svelte';
 	import { swipe } from 'svelte-gestures';
 
-    onMount(async () => {
+	onMount(async () => {
 		const resp = await fetch(`/api/analytics`, {
 			method: 'POST',
 			body: JSON.stringify({
@@ -16,14 +16,15 @@
 				'content-type': 'application/json'
 			}
 		});
-		console.log(await resp.json());
 	});
-    export let data;
+	export let data;
 	// TODO: get questions from database
 	let questions: any = data.questions;
 	let questionIndex = 0;
 	let question = questions[questionIndex].question;
 	let answer = questions[questionIndex].answer;
+    let imgSrc = '';
+    let adUrl = '';
 	let error = '';
 	let showCardBack = false;
 
@@ -35,6 +36,8 @@
 			questionIndex--;
 			question = questions[questionIndex].question;
 			answer = questions[questionIndex].answer;
+            imgSrc = questions[questionIndex].imgSrc;
+            adUrl = questions[questionIndex].adUrl;
 			showCardBack = false;
 		}
 	};
@@ -45,8 +48,10 @@
 			questionIndex++;
 			question = questions[questionIndex].question;
 			answer = questions[questionIndex].answer;
+            imgSrc = questions[questionIndex].imgSrc;
+            adUrl = questions[questionIndex].adUrl;
 			showCardBack = false;
-			if (questionIndex === questions.length - 1) {
+			if (questionIndex === questions.length - 2) {
 				await fetch(`/api/analytics`, {
 					method: 'POST',
 					body: JSON.stringify({
@@ -84,7 +89,7 @@
 					class="flip-box-inner cursor-pointer"
 					class:flip-it={showCardBack}
 				>
-					<Flashcard {question} {answer} {showCardBack} />
+					<Flashcard {imgSrc} {adUrl} {question} {answer} {showCardBack} />
 				</div>
 			</div>
 			<div class="flex justify-center items-center space-x-4 pt-4">

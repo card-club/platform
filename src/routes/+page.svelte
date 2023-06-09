@@ -4,29 +4,34 @@
 
 	const highlightedDecks = [
 		{
-			deck_id: "how-to-survive-a-hurricane",
+			deck_id: 'how-to-survive-a-hurricane',
 			title: 'How do you survive a hurricane?',
-			img: '/survive-hurricane.png',
-		}, {
-			deck_id: "what-is-the-flu",
+			img: '/survive-hurricane.png'
+		},
+		{
+			deck_id: 'what-is-the-flu',
 			title: 'Learn more about the flu',
-			img: '/what-is-flu.png',
-		},{
-			deck_id: "how-is-steel-used-in-constructions",
+			img: '/what-is-flu.png'
+		},
+		{
+			deck_id: 'how-is-steel-used-in-constructions',
 			title: 'Why is steel used in constructions?',
-			img: '/steel-in-constructions.png',
-		},{
-			deck_id: "how-can-you-prevent-skin-aging",
+			img: '/steel-in-constructions.png'
+		},
+		{
+			deck_id: 'how-can-you-prevent-skin-aging',
 			title: 'How can you prevent skin aging?',
-			img: '/skin-aging.png',
-		},{
-			deck_id: "what-is-the-elephant-social-behaviour",
+			img: '/skin-aging.png'
+		},
+		{
+			deck_id: 'what-is-the-elephant-social-behaviour',
 			title: 'What is the behaviour of an elephant?',
-			img: '/elephant-behaviour.png',
-		},{
-			deck_id: "why-are-shiitake-mushrooms-so-healthy",
+			img: '/elephant-behaviour.png'
+		},
+		{
+			deck_id: 'why-are-shiitake-mushrooms-so-healthy',
 			title: 'Why are shiitake mushrooms so healthy?',
-			img: '/shiitake.png',
+			img: '/shiitake.png'
 		}
 	];
 

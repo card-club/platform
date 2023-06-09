@@ -5,10 +5,10 @@ import { SXT_TABLE_BISCUIT, SXT_TABLE_RESOURCE_NAME, SXT_API_URL } from '$env/st
 
 // Hacky workaround to get random int instead of autoincrementing int from SxT
 function getRandomInt(min: number, max: number) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min) + min);
-  }
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min) + min);
+}
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request, cookies }) {
@@ -31,20 +31,23 @@ export async function POST({ request, cookies }) {
 			// Get SxT token
 			const sxt_access_token = await redis.get('sxt_access_token');
 			// Send to SxT
-            console.log(datetimefutureweek)
-            const resp = await fetch(`${SXT_API_URL}/v1/sql/dml`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${sxt_access_token}`,
-                    'Biscuit': SXT_TABLE_BISCUIT,
-                },
-                body: JSON.stringify({
-                    "resourceId": SXT_TABLE_RESOURCE_NAME,
-                    "sqlText": `INSERT INTO ${SXT_TABLE_RESOURCE_NAME} (ID, PUBLISHER_ID, DECK_ID, EVENT_TYPE, PUBLIC_KEY_STRING, SIGNED_TIMESTAMP, TIMESTAMP_UTC_START_SESSION, TIMESTAMP_UTC_END_SESSION) VALUES (${getRandomInt(1,1000000000)}, ${publisher_id}, ${deck_id}, '${event_type}', '${address}', '${signed}', '${datetimenow}', '${datetimefutureweek}')`,
-                }),
-            });
-            console.log(await resp.json());
+			console.log(datetimefutureweek);
+			const resp = await fetch(`${SXT_API_URL}/v1/sql/dml`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${sxt_access_token}`,
+					Biscuit: SXT_TABLE_BISCUIT
+				},
+				body: JSON.stringify({
+					resourceId: SXT_TABLE_RESOURCE_NAME,
+					sqlText: `INSERT INTO ${SXT_TABLE_RESOURCE_NAME} (ID, PUBLISHER_ID, DECK_ID, EVENT_TYPE, PUBLIC_KEY_STRING, SIGNED_TIMESTAMP, TIMESTAMP_UTC_START_SESSION, TIMESTAMP_UTC_END_SESSION) VALUES (${getRandomInt(
+						1,
+						1000000000
+					)}, ${publisher_id}, ${deck_id}, '${event_type}', '${address}', '${signed}', '${datetimenow}', '${datetimefutureweek}')`
+				})
+			});
+			console.log(await resp.json());
 			return json({
 				event_received: true
 			});

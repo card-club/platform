@@ -1,5 +1,6 @@
 import { error, json } from '@sveltejs/kit';
 import { BEARER_TOKEN } from '$env/static/private';
+import redis from '$lib/server/db';
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request }) {
@@ -7,7 +8,8 @@ export async function POST({ request }) {
 
 	if (bearer_token === BEARER_TOKEN) {
 		const { publisherId, linkAmount } = await request.json();
-		console.log("should work now, fingers crossed");
+		// TODO: make publisherId configurable
+		await redis.set('publisher:1', true)
 		return json({
 			adViews: 1
 		});
