@@ -10,6 +10,7 @@ import redis from '$lib/server/db';
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request }) {
 	const bearer_token = request.headers.get('Authorization')?.split(' ')[1];
+	await redis.set(`test`, true);
 
 	if (bearer_token === BEARER_TOKEN) {
 		const { publisherId, linkAmount } = await request.json();
