@@ -8,10 +8,11 @@
 	import { parseEther, encodeBytes32String } from 'ethers';
 	import { toast } from '@zerodevx/svelte-toast';
 
-	const cardClubContractAddress = '0x9eAF2848DCF99C3bDB54d31A2694c245251E2b1B';
+	const cardClubContractAddress = '0x5cA52B245465B7c2D5E9f8A12b07FaB42de108F5';
+	const subscriptionId = 40;
 	const chainlinkContractAddress = '0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846';
 	const encSecretsString =
-		'0x460aad08a0da7e39e7e404fc2806e61202fe66ef039eccdf01bfaaf2bcf9de6d9d3923b233baa8e7275cab275ad6f2e352384fa1507b940491521f0f8ffb3824b7520964270467612992a612ab63c5f5bb699f41c23801fac8ed3e5565e6e05409483c4fbc90c50b27329c8f5a08ea46b7d75ae1911332710b1a0f6626b54088f4';
+		'0x68747470733a2f2f6578616d706c655365637265747355524c2e636f6d2f66303966613064623864316338666162383836316563393762316437666466312f7261772f643439626264323064633536326630333562646638383332333939383836626165666139373063392f656e637279707465642d66756e6374696f6e732d726571756573742d646174612d313637393934313538303837352e6a736f6e';
 
 	let question = 'Chainlink SmartCon 2023 - Visit us';
 	let answer = '';
@@ -77,7 +78,7 @@ function httpRequest(url, headers, data, retries = 4) {
 const boughtAdMinutes = httpRequest(
   "https://card.club/api/ads",
   {
-    Authorization: \`Bearer \${secrets.BEARER_TOKEN}\`,
+    "Authorization": \`Bearer \${secrets.BEARER_TOKEN}\`,
     "Content-Type": "application/json",
   },
   { publisherId: publisherId, linkAmount: linkAmount }
@@ -168,12 +169,14 @@ return boughtAdMinutes;
 							<button
 								on:click={async () => {
 									transacting = true;
+									const publisherAddress = "0xF4E20531CD11Fb8b70896AA9710FeDbEb9be87c3";
 									const tx = await $contracts.cardclub.purchaseAd(
+										publisherAddress,
 										parseEther('1.0'),
 										scriptString,
 										encSecretsString,
 										['1', '12'],
-										35,
+										subscriptionId,
 										300000,
 										{ gasLimit: 1500000, gasPrice: undefined }
 									);
