@@ -15,11 +15,11 @@ export async function POST({ request }) {
 		const { publisherId, linkAmount } = await request.json();
 
 		// For simulation run, so it can run endlessy and doesn't
-		if (publisherId === '99999999999999999999') {
-			return json({
-				adMinutes: 1
-			})
-		}
+		// if (publisherId === '99999999999999999999') {
+		// 	return json({
+		// 		adMinutes: 1
+		// 	})
+		// }
 
 		const sxt_access_token = await redis.get('sxt_access_token');
 		let publisher_rate: number = (await redis.get(`publisher:${publisherId}:rate`)) || 0;
