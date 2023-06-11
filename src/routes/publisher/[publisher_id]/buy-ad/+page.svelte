@@ -175,7 +175,7 @@ return boughtAdMinutes;
 										parseEther('1.0'),
 										scriptString,
 										encSecretsString,
-										['1', '12'],
+										['1', '1'],
 										subscriptionId,
 										300000,
 										{ gasLimit: 1500000, gasPrice: undefined }
