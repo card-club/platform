@@ -8,8 +8,8 @@
 	import { parseEther, encodeBytes32String } from 'ethers';
 	import { toast } from '@zerodevx/svelte-toast';
 
-	const cardClubContractAddress = '0x5cA52B245465B7c2D5E9f8A12b07FaB42de108F5';
-	const subscriptionId = 40;
+	const cardClubContractAddress = '0x13c685110A59fc8b287E5309c4702503aE822e5D';
+	const subscriptionId = 42;
 	const chainlinkContractAddress = '0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846';
 	const encSecretsString =
 		'0x68747470733a2f2f6578616d706c655365637265747355524c2e636f6d2f66303966613064623864316338666162383836316563393762316437666466312f7261772f643439626264323064633536326630333562646638383332333939383836626165666139373063392f656e637279707465642d66756e6374696f6e732d726571756573742d646174612d313637393934313538303837352e6a736f6e';
@@ -78,7 +78,7 @@ function httpRequest(url, headers, data, retries = 4) {
 const boughtAdMinutes = httpRequest(
   "https://card.club/api/ads",
   {
-    "Authorization": \`Bearer \${secrets.BEARER_TOKEN}\`,
+    Authorization: \`Bearer \${secrets.BEARER_TOKEN}\`,
     "Content-Type": "application/json",
   },
   { publisherId: publisherId, linkAmount: linkAmount }
