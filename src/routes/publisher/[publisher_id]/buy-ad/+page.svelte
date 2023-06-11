@@ -7,18 +7,23 @@
 	import { authenticated } from '$lib/stores/auth';
 	import { parseEther, encodeBytes32String } from 'ethers';
 	import { toast } from '@zerodevx/svelte-toast';
+
+	const cardClubContractAddress = "0x8B5d01E6A0D7E996FA6Cd046E39a46fE9d515F8F";
+	const chainlinkContractAddress = "0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846";
+	const encSecretsString = '0x460aad08a0da7e39e7e404fc2806e61202fe66ef039eccdf01bfaaf2bcf9de6d9d3923b233baa8e7275cab275ad6f2e352384fa1507b940491521f0f8ffb3824b7520964270467612992a612ab63c5f5bb699f41c23801fac8ed3e5565e6e05409483c4fbc90c50b27329c8f5a08ea46b7d75ae1911332710b1a0f6626b54088f4';
+	
 	let question = 'Chainlink SmartCon 2023 - Visit us';
 	let answer = '';
 	let showCardBack = false;
 	let imgSrc = '/Chainlink-SmartCon-2023.png';
 	let adUrl = 'https://smartcon.chain.link/';
     let transacting = false;
-    let successful = false
+    let successful = false;
+
 	onMount(async () => {
-		console.log(encodeBytes32String('secretsauce'));
 		evm.setProvider();
-		evm.attachContract('chainlink', '0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846', chainlink);
-		evm.attachContract('cardclub', '0x8B5d01E6A0D7E996FA6Cd046E39a46fE9d515F8F', cardclub);
+		evm.attachContract('chainlink', chainlinkContractAddress, chainlink);
+		evm.attachContract('cardclub', cardClubContractAddress, cardclub);
 		if ($signerAddress) {
 			authenticated.set(true);
 		}
@@ -96,7 +101,7 @@ return boughtAdViews;
                 <h3 class="text-base text-center font-semibold leading-6 text-gray-900 mb-2">
                     Transaction successful
                 </h3>
-                <div style="width:100%"><div style="height:0;padding-bottom:56.25%;position:relative;width:100%"><iframe allowfullscreen="" frameBorder="0" height="100%" src="https://giphy.com/embed/G96zgIcQn1L2xpmdxi/video" style="left:0;position:absolute;top:0" width="100%"></iframe></div></div>
+                <div style="width:100%"><div style="height:0;padding-bottom:56.25%;position:relative;width:100%"><iframe allowfullscreen="" frameBorder="0" height="100%" src="https://giphy.com/embed/G96zgIcQn1L2xpmdxi/video" style="left:0;position:absolute;top:0;border-radius:10px" width="100%"></iframe></div></div>
             </div>
         </div>
         {:else}
@@ -111,7 +116,7 @@ return boughtAdViews;
         </div>
         {:else}
 		{#if $authenticated && $signerAddress}
-			{#await $contracts.chainlink.allowance($signerAddress, '0x8B5d01E6A0D7E996FA6Cd046E39a46fE9d515F8F')}
+			{#await $contracts.chainlink.allowance($signerAddress, cardClubContractAddress)}
             <div class="mt-10 bg-white shadow sm:rounded-lg">
                 <div class="px-4 py-5 sm:p-6">
                     <h3 class="text-base font-semibold leading-6 text-gray-900">
@@ -132,7 +137,7 @@ return boughtAdViews;
 							<button
 								on:click={async () => {
 									await $contracts.chainlink.approve(
-										'0x8B5d01E6A0D7E996FA6Cd046E39a46fE9d515F8F',
+										cardClubContractAddress,
 										parseEther('100.0')
 									);
 								}}
@@ -162,7 +167,7 @@ return boughtAdViews;
 									const tx = await $contracts.cardclub.purchaseAd(
 										parseEther('1.0'),
 										scriptString,
-										'0x460aad08a0da7e39e7e404fc2806e61202fe66ef039eccdf01bfaaf2bcf9de6d9d3923b233baa8e7275cab275ad6f2e352384fa1507b940491521f0f8ffb3824b7520964270467612992a612ab63c5f5bb699f41c23801fac8ed3e5565e6e05409483c4fbc90c50b27329c8f5a08ea46b7d75ae1911332710b1a0f6626b54088f4',
+										encSecretsString,
 										['1', '12'],
 										35,
 										300000,

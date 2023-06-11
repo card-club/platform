@@ -98,7 +98,7 @@
 		<div class="flex flex-col justify-center items-center mt-16">
 			<div class="flip-box">
 				<div
-					on:click={toggleShowBack}
+					on:click={!adUrl && toggleShowBack}
 					class="flip-box-inner cursor-pointer"
 					class:flip-it={showCardBack}
 				>
@@ -109,6 +109,9 @@
 				<button
 					class="text-xl cursor-pointer text-gray-800 bg-white w-10 h-10 rounded-full flex justify-center items-center pr-1 border-[3.5px] border-sky-300"
 					on:click={previousCard}
+					disabled={questionIndex === 0}
+					class:opacity-20={questionIndex === 0}
+					class:cursor-default={questionIndex === 0}
 				>
 					<svg
 						class="flip-it"
@@ -127,6 +130,9 @@
 				<button
 					class="text-xl cursor-pointer text-gray-800 bg-white w-10 h-10 rounded-full flex justify-center items-center pl-1 border-[3.5px] border-sky-300"
 					on:click={nextCard}
+					disabled={questionIndex === questions.length - 1}
+					class:opacity-20={questionIndex === questions.length - 1}
+					class:cursor-default={questionIndex === questions.length - 1}
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
