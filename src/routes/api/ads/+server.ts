@@ -20,8 +20,8 @@ export async function POST({ request }) {
 				adMinutes: 1
 			})
 		}
-		const existingAd = await redis.get(`publisher:${publisherId}:ad`);
-		if (existingAd) {
+		const existingAd: number = await redis.get(`publisher:${publisherId}:ad`) || 0;
+		if (existingAd >= 4) {
 			throw error(400, { message: 'Advertisment already exists' });
 		};
 
@@ -76,7 +76,7 @@ export async function POST({ request }) {
 					break;
 			}
 			// TODO: future set this to advertisement ID instead of hardcoded true
-			await redis.set(`publisher:${publisherId}:ad`, 'true');
+			await redis.incr(`publisher:${publisherId}:ad`);
 			await redis.expire(
 				`publisher:${publisherId}:ad`,
 				Math.ceil(publisher_rate * linkAmount * 60 * 60 * 24)
@@ -86,7 +86,7 @@ export async function POST({ request }) {
 			});
 		} else {
 			// TODO: future set this to advertisement ID instead of hardcoded true
-			await redis.set(`publisher:${publisherId}:ad`, 'true');
+			await redis.incr(`publisher:${publisherId}:ad`);
 			await redis.expire(
 				`publisher:${publisherId}:ad`,
 				Math.ceil(publisher_rate * linkAmount * 60 * 60 * 24)
