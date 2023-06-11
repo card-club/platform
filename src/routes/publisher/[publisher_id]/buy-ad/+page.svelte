@@ -8,17 +8,18 @@
 	import { parseEther, encodeBytes32String } from 'ethers';
 	import { toast } from '@zerodevx/svelte-toast';
 
-	const cardClubContractAddress = "0x8B5d01E6A0D7E996FA6Cd046E39a46fE9d515F8F";
-	const chainlinkContractAddress = "0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846";
-	const encSecretsString = '0x460aad08a0da7e39e7e404fc2806e61202fe66ef039eccdf01bfaaf2bcf9de6d9d3923b233baa8e7275cab275ad6f2e352384fa1507b940491521f0f8ffb3824b7520964270467612992a612ab63c5f5bb699f41c23801fac8ed3e5565e6e05409483c4fbc90c50b27329c8f5a08ea46b7d75ae1911332710b1a0f6626b54088f4';
-	
+	const cardClubContractAddress = '0x8B5d01E6A0D7E996FA6Cd046E39a46fE9d515F8F';
+	const chainlinkContractAddress = '0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846';
+	const encSecretsString =
+		'0x460aad08a0da7e39e7e404fc2806e61202fe66ef039eccdf01bfaaf2bcf9de6d9d3923b233baa8e7275cab275ad6f2e352384fa1507b940491521f0f8ffb3824b7520964270467612992a612ab63c5f5bb699f41c23801fac8ed3e5565e6e05409483c4fbc90c50b27329c8f5a08ea46b7d75ae1911332710b1a0f6626b54088f4';
+
 	let question = 'Chainlink SmartCon 2023 - Visit us';
 	let answer = '';
 	let showCardBack = false;
 	let imgSrc = '/Chainlink-SmartCon-2023.png';
 	let adUrl = 'https://smartcon.chain.link/';
-    let transacting = false;
-    let successful = false;
+	let transacting = false;
+	let successful = false;
 
 	onMount(async () => {
 		evm.setProvider();
@@ -95,36 +96,42 @@ return boughtAdViews;
 	class="bg-gradient-to-r from-gray-900 via-sky-950 to-gray-900 w-screen h-screen flex flex-col justify-start items-center bg-gray-100"
 >
 	<div>
-        {#if successful}
-        <div class="mt-10 bg-white shadow sm:rounded-lg w-[360px]">
-            <div class="px-4 py-5 sm:p-6">
-                <h3 class="text-base text-center font-semibold leading-6 text-gray-900 mb-2">
-                    Transaction successful
-                </h3>
-                <div style="width:100%"><div style="height:0;padding-bottom:56.25%;position:relative;width:100%"><iframe allowfullscreen="" frameBorder="0" height="100%" src="https://giphy.com/embed/G96zgIcQn1L2xpmdxi/video" style="left:0;position:absolute;top:0;border-radius:10px" width="100%"></iframe></div></div>
-            </div>
-        </div>
-        {:else}
-
-        {#if transacting}
-        <div class="mt-10 bg-white shadow sm:rounded-lg">
-            <div class="px-4 py-5 sm:p-6">
-                <h3 class="text-base font-semibold leading-6 text-gray-900 animate-pulse">
-                    Transaction in progress
-                </h3>
-            </div>
-        </div>
-        {:else}
-		{#if $authenticated && $signerAddress}
+		{#if successful}
+			<div class="mt-10 bg-white shadow sm:rounded-lg w-[360px]">
+				<div class="px-4 py-5 sm:p-6">
+					<h3 class="text-base text-center font-semibold leading-6 text-gray-900 mb-2">
+						Transaction successful
+					</h3>
+					<div style="width:100%">
+						<div style="height:0;padding-bottom:56.25%;position:relative;width:100%">
+							<iframe
+								allowfullscreen=""
+								frameBorder="0"
+								height="100%"
+								src="https://giphy.com/embed/G96zgIcQn1L2xpmdxi/video"
+								style="left:0;position:absolute;top:0;border-radius:10px"
+								width="100%"
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
+		{:else if transacting}
+			<div class="mt-10 bg-white shadow sm:rounded-lg">
+				<div class="px-4 py-5 sm:p-6">
+					<h3 class="text-base font-semibold leading-6 text-gray-900 animate-pulse">
+						Transaction in progress
+					</h3>
+				</div>
+			</div>
+		{:else if $authenticated && $signerAddress}
 			{#await $contracts.chainlink.allowance($signerAddress, cardClubContractAddress)}
-            <div class="mt-10 bg-white shadow sm:rounded-lg">
-                <div class="px-4 py-5 sm:p-6">
-                    <h3 class="text-base font-semibold leading-6 text-gray-900">
-                        waiting
-                    </h3>
-                </div>
-            </div>			
-            {:then value}
+				<div class="mt-10 bg-white shadow sm:rounded-lg">
+					<div class="px-4 py-5 sm:p-6">
+						<h3 class="text-base font-semibold leading-6 text-gray-900">waiting</h3>
+					</div>
+				</div>
+			{:then value}
 				{#if value.toString().length < 20}
 					<div class="mt-10 bg-white shadow sm:rounded-lg">
 						<div class="px-4 py-5 sm:p-6">
@@ -136,10 +143,7 @@ return boughtAdViews;
 							</div>
 							<button
 								on:click={async () => {
-									await $contracts.chainlink.approve(
-										cardClubContractAddress,
-										parseEther('100.0')
-									);
+									await $contracts.chainlink.approve(cardClubContractAddress, parseEther('100.0'));
 								}}
 								class="mt-4 w-full rounded-md bg-sky-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 								>Set 100 link allowance</button
@@ -163,7 +167,7 @@ return boughtAdViews;
 							</div>
 							<button
 								on:click={async () => {
-                                    transacting = true;
+									transacting = true;
 									const tx = await $contracts.cardclub.purchaseAd(
 										parseEther('1.0'),
 										scriptString,
@@ -173,17 +177,16 @@ return boughtAdViews;
 										300000,
 										{ gasLimit: 1500000, gasPrice: undefined }
 									);
-                                    let receipt = await tx.wait();  // wait for transaction to be mined
-                                    if (receipt.status === 0) {
-                                        toast.push('Transaction has failed ⚠');
-                                    } else if (receipt.status === 1) {
-                                        successful = true;
-                                        toast.push('Transaction was successful 🚀');
-                                    } else {
-                                        toast.push('Unknown transaction status ❓');
-                                    }
-                                    transacting = false;
-
+									let receipt = await tx.wait(); // wait for transaction to be mined
+									if (receipt.status === 0) {
+										toast.push('Transaction has failed ⚠');
+									} else if (receipt.status === 1) {
+										successful = true;
+										toast.push('Transaction was successful 🚀');
+									} else {
+										toast.push('Unknown transaction status ❓');
+									}
+									transacting = false;
 								}}
 								class="mt-4 w-full rounded-md bg-sky-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 								>Buy ad for 1 Link</button
@@ -199,9 +202,6 @@ return boughtAdViews;
 				</div>
 			</div>
 		{/if}
-        {/if}
-        {/if}
-
 	</div>
 	<div class="flex flex-col justify-center items-center mt-16">
 		<div class="flip-box">

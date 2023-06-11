@@ -56,6 +56,7 @@
 		align-items: center;
 		font-size: 1.3rem;
 		text-align: center;
+		transform: rotateY(0deg);
 	}
 
 	/* Style the back side */

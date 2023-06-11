@@ -31,7 +31,6 @@ export async function POST({ request, cookies }) {
 			// Get SxT token
 			const sxt_access_token = await redis.get('sxt_access_token');
 			// Send to SxT
-			console.log(datetimefutureweek);
 			const resp = await fetch(`${SXT_API_URL}/v1/sql/dml`, {
 				method: 'POST',
 				headers: {
@@ -41,10 +40,16 @@ export async function POST({ request, cookies }) {
 				},
 				body: JSON.stringify({
 					resourceId: SXT_TABLE_RESOURCE_NAME,
-					sqlText: `INSERT INTO ${SXT_TABLE_RESOURCE_NAME} (ID, PUBLISHER_ID, DECK_ID, EVENT_TYPE, PUBLIC_KEY_STRING, SIGNED_TIMESTAMP, TIMESTAMP_UTC_START_SESSION, TIMESTAMP_UTC_END_SESSION) VALUES (${getRandomInt(
+					sqlText: `INSERT INTO ${SXT_TABLE_RESOURCE_NAME} (ID, PUBLISHER_ID, DECK_ID, EVENT_TYPE, EVENT_TIMESTAMP, PUBLIC_KEY_STRING, SIGNED_TIMESTAMP, TIMESTAMP_UTC_START_SESSION, TIMESTAMP_UTC_END_SESSION) VALUES (${getRandomInt(
 						1,
 						1000000000
-					)}, ${publisher_id}, ${deck_id}, '${event_type}', '${address}', '${signed}', '${datetimenow}', '${datetimefutureweek}')`
+					)}, ${publisher_id}, ${deck_id}, '${event_type}', '${new Date()
+						.toISOString()
+						.replace('T', ' ')
+						.replace(
+							'Z',
+							''
+						)}' , '${address}', '${signed}', '${datetimenow}', '${datetimefutureweek}')`
 				})
 			});
 			console.log(await resp.json());

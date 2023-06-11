@@ -5,7 +5,7 @@
 	import { swipe } from 'svelte-gestures';
 
 	onMount(async () => {
-		const resp = await fetch(`/api/analytics`, {
+		await fetch(`/api/analytics`, {
 			method: 'POST',
 			body: JSON.stringify({
 				event_type: 'deck_start',
@@ -23,8 +23,8 @@
 	let questionIndex = 0;
 	let question = questions[questionIndex].question;
 	let answer = questions[questionIndex].answer;
-    let imgSrc = '';
-    let adUrl = '';
+	let imgSrc = '';
+	let adUrl = '';
 	let error = '';
 	let showCardBack = false;
 
@@ -36,8 +36,8 @@
 			questionIndex--;
 			question = questions[questionIndex].question;
 			answer = questions[questionIndex].answer;
-            imgSrc = questions[questionIndex].imgSrc;
-            adUrl = questions[questionIndex].adUrl;
+			imgSrc = questions[questionIndex].imgSrc;
+			adUrl = questions[questionIndex].adUrl;
 			showCardBack = false;
 		}
 	};
@@ -48,8 +48,8 @@
 			questionIndex++;
 			question = questions[questionIndex].question;
 			answer = questions[questionIndex].answer;
-            imgSrc = questions[questionIndex].imgSrc;
-            adUrl = questions[questionIndex].adUrl;
+			imgSrc = questions[questionIndex].imgSrc;
+			adUrl = questions[questionIndex].adUrl;
 			showCardBack = false;
 			if (questionIndex === questions.length - 2) {
 				await fetch(`/api/analytics`, {
@@ -64,7 +64,7 @@
 					}
 				});
 			}
-            if (questionIndex === questions.length - 1) {
+			if (adUrl && questionIndex === questions.length - 1) {
 				await fetch(`/api/analytics`, {
 					method: 'POST',
 					body: JSON.stringify({
@@ -158,6 +158,8 @@
 		height: 260px;
 		width: 380px;
 		perspective: 1000px; /* Remove this if you don't want the 3D effect */
+		backface-visibility: hidden;
+		transform-style: preserve-3d;
 	}
 
 	/* This container is needed to position the front and back side */
