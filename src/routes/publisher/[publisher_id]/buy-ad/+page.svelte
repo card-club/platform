@@ -8,7 +8,7 @@
 	import { parseEther, encodeBytes32String } from 'ethers';
 	import { toast } from '@zerodevx/svelte-toast';
 
-	const cardClubContractAddress = '0x8B5d01E6A0D7E996FA6Cd046E39a46fE9d515F8F';
+	const cardClubContractAddress = '0x9eAF2848DCF99C3bDB54d31A2694c245251E2b1B';
 	const chainlinkContractAddress = '0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846';
 	const encSecretsString =
 		'0x460aad08a0da7e39e7e404fc2806e61202fe66ef039eccdf01bfaaf2bcf9de6d9d3923b233baa8e7275cab275ad6f2e352384fa1507b940491521f0f8ffb3824b7520964270467612992a612ab63c5f5bb699f41c23801fac8ed3e5565e6e05409483c4fbc90c50b27329c8f5a08ea46b7d75ae1911332710b1a0f6626b54088f4';
@@ -74,20 +74,20 @@ function httpRequest(url, headers, data, retries = 4) {
   });
 }
 
-const boughtAdViews = httpRequest(
+const boughtAdMinutes = httpRequest(
   "https://card.club/api/ads",
   {
-    "Authorization": \`Bearer \${secrets.BEARER_TOKEN}\`,
+    Authorization: \`Bearer \${secrets.BEARER_TOKEN}\`,
     "Content-Type": "application/json",
   },
   { publisherId: publisherId, linkAmount: linkAmount }
 )
   .then((data) => {
-    return Functions.encodeUint256(data.adViews);
+    return Functions.encodeUint256(data.adMinutes);
   })
   .catch((error) => console.error(error));
 
-return boughtAdViews;
+return boughtAdMinutes;
 `;
 </script>
 
