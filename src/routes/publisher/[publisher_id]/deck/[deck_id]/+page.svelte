@@ -84,8 +84,23 @@
 		if (event.detail.direction === 'left') nextCard();
 		if (event.detail.direction === 'right') previousCard();
 	}
-</script>
 
+	function onKeyDown(e: { keyCode: any; }) {
+		 switch(e.keyCode) {
+			case 38:
+			case 40:
+				 toggleShowBack();
+				 break;
+			 case 37:
+				 questionIndex && previousCard();
+				 break;
+			 case 39:
+				 questionIndex < questions.length - 1 && nextCard();
+				 break;
+		 }
+	}
+</script>
+<svelte:window on:keydown|preventDefault={onKeyDown} />
 <main
 	use:swipe={{ timeframe: 300, minSwipeDistance: 60 }}
 	on:swipe={swipeHandler}
