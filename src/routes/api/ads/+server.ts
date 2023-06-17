@@ -18,12 +18,12 @@ export async function POST({ request }) {
 		if (publisherId === '99999999999999999999') {
 			return json({
 				adMinutes: 1
-			})
+			});
 		}
-		const existingAd: number = await redis.get(`publisher:${publisherId}:ad`) || 0;
+		const existingAd: number = (await redis.get(`publisher:${publisherId}:ad`)) || 0;
 		if (existingAd > 3) {
 			throw error(400, { message: 'Advertisment already exists' });
-		};
+		}
 
 		const sxt_access_token = await redis.get('sxt_access_token');
 		let publisher_rate: number = (await redis.get(`publisher:${publisherId}:rate`)) || 0;

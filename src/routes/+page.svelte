@@ -53,8 +53,6 @@
 				'content-type': 'application/json'
 			}
 		});
-
-		console.log('searching for', response);
 	};
 </script>
 

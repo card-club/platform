@@ -169,7 +169,7 @@ return boughtAdMinutes;
 							<button
 								on:click={async () => {
 									transacting = true;
-									const publisherAddress = "0xF4E20531CD11Fb8b70896AA9710FeDbEb9be87c3";
+									const publisherAddress = '0xF4E20531CD11Fb8b70896AA9710FeDbEb9be87c3';
 									const tx = await $contracts.cardclub.purchaseAd(
 										publisherAddress,
 										parseEther('1.0'),
