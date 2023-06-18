@@ -2,7 +2,7 @@
 	"how-to-survive-a-hurricane": [
 		{
 			"question": "What are the initial steps to prepare for a hurricane?",
-			"answer": "Keep yourself updated with weather reports. Prepare an emergency kit with necessary supplies such as food, water, medicines, important documents, etc. Secure your property by installing storm shutters, reinforcing doors, and removing loose items that could become projectiles in high winds."
+			"answer": "Keep yourself updated with weather reports. Prepare an emergency kit with supplies such as food, water, medicines, important documents. Secure your property by installing storm shutters, reinforcing doors, and removing loose items that could become projectiles."
 		},
 		{
 			"question": "What is the importance of an evacuation plan during a hurricane?",
@@ -26,7 +26,7 @@
 		},
 		{
 			"question": "How can one communicate during and after a hurricane?",
-			"answer": "Cell phone networks can be unreliable during and after a hurricane. Having a battery-powered or hand-cranked radio can help you receive updates from authorities. Pre-established emergency contacts and meeting places can facilitate family communication."
+			"answer": "Cell phone networks can be unreliable during and after a hurricane. Having a battery-powered or hand-cranked radio can help you receive updates. Pre-established emergency contacts and meeting places can facilitate family communication."
 		},
 		{
 			"question": "Why is it unsafe to drive during a hurricane?",
@@ -38,7 +38,7 @@
 		},
 		{
 			"question": "What resources are available to those affected by a hurricane?",
-			"answer": "Resources include local emergency services, the American Red Cross, and the Federal Emergency Management Agency (FEMA). These organizations provide immediate relief and help with recovery efforts, including temporary shelter, medical assistance, and rebuilding resources."
+			"answer": "Resources include local emergency services. These organizations provide immediate relief and help with recovery efforts, including temporary shelter, medical assistance, and rebuilding resources."
 		}
 	],
 	"what-is-the-flu": [

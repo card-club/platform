@@ -28,7 +28,10 @@
 	let error = '';
 	let showCardBack = false;
 
-	const toggleShowBack = () => (showCardBack = !showCardBack);
+	const toggleShowBack = () => {
+		if (questionIndex !== questions.length - 1) showCardBack = !showCardBack;
+	};
+
 	const previousCard = () => {
 		if (questionIndex === 0) {
 			toast.push('You are already on the first card.');
@@ -42,6 +45,7 @@
 		}
 	};
 	const nextCard = async () => {
+		showCardBack = false;
 		if (questionIndex === questions.length - 1) {
 			toast.push('You are already on the last card.');
 		} else {
@@ -50,7 +54,6 @@
 			answer = questions[questionIndex].answer;
 			imgSrc = questions[questionIndex].imgSrc;
 			adUrl = questions[questionIndex].adUrl;
-			showCardBack = false;
 			if (questionIndex === questions.length - 2) {
 				await fetch(`/api/analytics`, {
 					method: 'POST',
